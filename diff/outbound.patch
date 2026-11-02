@@ -1,0 +1,17 @@
+--- /home/dsh/Documents/deepseek-harness/default-workspace/qq-workspace/qqbot-patch-export/original/transport/outbound.js	2026-11-02 17:24:53.562347286 +0800
++++ /home/dsh/Documents/deepseek-harness/default-workspace/qq-workspace/qqbot-patch-export/patched/transport/outbound.js	2026-11-02 17:24:53.552582716 +0800
+@@ -1,4 +1,5 @@
+ import { chunkMarkdownText } from "./chunker.js";
++import { splitMessageBlocks } from "./split-message.js"; // DSH-QQBOT-PATCH: split
+ import { OutboundBuffer } from "./outbound-buffer.js";
+ import { formatToolResult } from "./tool-presenter.js";
+ import { parseEvent, extractTurnError, } from "./events.js";
+@@ -207,7 +208,7 @@
+     }
+     /** 统一发送：切分 + 逐 chunk 发送 + 错误记录 */
+     async send(record, text, tag) {
+-        const chunks = chunkMarkdownText(text, this.config.textChunkLimit);
++        const chunks = splitMessageBlocks(text, this.config.textChunkLimit);
+         for (const chunk of chunks) {
+             try {
+                 await this.bot.sendMarkdown(record.replyTarget, chunk);
