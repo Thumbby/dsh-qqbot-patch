@@ -1,0 +1,9 @@
+{
+  "plugin": "@tencent-connect/dsh-qqbot",
+  "pluginVersion": "0.5.3",
+  "dshVersion": "0.2.1-rc.5",
+  "node": "v26.13.0",
+  "patchedAt": "2026-11-02",
+  "profile": "~/.dsh/profiles/web",
+  "notes": "streaming: false 写在 profile 的 cordis.patch.yml im-qqbot 段"
+}

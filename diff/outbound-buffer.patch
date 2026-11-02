@@ -1,0 +1,17 @@
+--- a/original/transport/outbound-buffer.js	2026-11-02 17:24:53.563797023 +0800
++++ b/patched/transport/outbound-buffer.js	2026-11-02 17:24:53.554410735 +0800
+@@ -1,4 +1,5 @@
+ import { chunkMarkdownText } from "./chunker.js";
++import { splitMessageBlocks } from "./split-message.js"; // DSH-QQBOT-PATCH: split
+ import { StreamingWriter } from "./streaming-writer.js";
+ /** 流式输出节流间隔(ms)：连续 chunk 累积后停顿该间隔才推送 */
+ const STREAM_THROTTLE_MS = 200;
+@@ -46,7 +47,7 @@
+                     return;
+             }
+             // 降级：静态发送（writer 不存在 or 流式失败）
+-            const chunks = chunkMarkdownText(this.buffer, this.limit);
++            const chunks = splitMessageBlocks(this.buffer, this.limit);
+             for (const chunk of chunks) {
+                 await this.bot.sendMarkdown(this.record.replyTarget, chunk);
+             }
