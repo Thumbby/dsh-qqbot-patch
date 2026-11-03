@@ -1,5 +1,5 @@
---- a/original/gateway/middleware-setup.js	2026-11-02 17:24:53.560494253 +0800
-+++ b/patched/gateway/middleware-setup.js	2026-11-02 17:24:53.550543349 +0800
+--- original/gateway/middleware-setup.js	2026-11-02 17:24:53.560494253 +0800
++++ patched/gateway/middleware-setup.js	2026-11-03 09:46:34.691109336 +0800
 @@ -3,6 +3,7 @@
  import { attachmentProcessor } from "../middleware/attachment.js";
  import { questionAnswer } from "../middleware/question-answer.js";
@@ -13,7 +13,7 @@
      // 8.5. 待答问题截获（在 concurrencyGuard 之前，答案消息不排队直接作答）
      bot.use(questionAnswer(manager));
 +    // DSH-QQBOT-PATCH: 同 peer 窗口期内的连续消息合并成一条
-+    bot.use(debounceMerge({ windowMs: 1500 }));
++    bot.use(debounceMerge({ windowMs: 10000, attachmentWindowMs: 20000 }));
      // 9. 并发串行 + 消息合并（同 peer 排队，避免 session 冲突）
      bot.use(concurrencyGuard({
          strategy: 'merge',

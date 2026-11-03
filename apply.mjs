@@ -77,7 +77,7 @@ patchFile('gateway/middleware-setup.js', `${MARK}: debounce`, (src) => {
   );
   out = out.replace(
     '    bot.use(questionAnswer(manager));\n',
-    '    bot.use(questionAnswer(manager));\n    // DSH-QQBOT-PATCH: 同 peer 窗口期内的连续消息合并成一条\n    bot.use(debounceMerge({ windowMs: 1500 }));\n',
+    '    bot.use(questionAnswer(manager));\n    // DSH-QQBOT-PATCH: 同 peer 窗口期内的连续消息合并成一条\n    bot.use(debounceMerge({ windowMs: 10000, attachmentWindowMs: 20000 }));\n',
   );
   return out;
 });
